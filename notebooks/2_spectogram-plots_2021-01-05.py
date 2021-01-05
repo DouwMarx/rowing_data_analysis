@@ -5,23 +5,22 @@ import scipy.signal as s
 
 from matplotlib.backends.backend_pdf import PdfPages
 
+"""A not so very neat script for some initial data exploration"""
+
 fnames = ["Sensor_record_20201204_113103_AndroSensor.csv",
          "Sensor_record_20201205_155404_AndroSensor.csv",
          "Sensor_record_20201206_165254_AndroSensor.csv",
           "Sensor_record_20201207_114856_AndroSensor.csv"]
 
+# Load a particular dataset
 fname = fnames[3]
-d = pd.read_csv("D:\\Data\\rowing_data\\" + fname)
+d = pd.read_csv("/run/media/douwmarx/DATA/Data/rowing_data/" + fname)
 
 pp = PdfPages(fname[0:-4]+'.pdf')
 
+# List the channels measured
 for k in d.keys():
     print(k)
-
-# Check sampling rate and std of sampling rate
-# t = d["Time since start in ms "]
-# tdiff = np.diff(t)
-# print(np.average(tdiff),np.std(tdiff))
 
 
 def plot_spectogram(signal):
@@ -57,6 +56,7 @@ for sig in gyro_xyz:
     signal = butter_lowpass_filter(d[sig],2,100,5)
     plot_spectogram(signal)
     plt.title(sig)
+    plt.savefig("../reports/figures/" + sig.replace(" ", "_").replace("(rad/s)","") + "_spectrogram.png")
 
 # acc_mag = np.sqrt(d[acc_xyz[0]]**2 + d[acc_xyz[1]]**2 + d[acc_xyz[2]]**2)
 #
